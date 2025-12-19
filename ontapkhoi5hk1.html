@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Ôn Luyện Tin Học 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #007bff; --bg-color: #f0f2f5; --text-color: #333; --success: #28a745; --error: #dc3545; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; line-height: 1.6; }
+        .main-container { background: #fff; max-width: 800px; margin: 0 auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); overflow: hidden; }
+        .header-banner { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        .header-banner h1 { margin: 0; font-size: 24px; text-transform: uppercase; }
+        .content-body { padding: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 700; }
+        .form-input { width: 100%; padding: 12px; border: 2px solid #e1e5eb; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; width: 100%; }
+        .btn-secondary { background: #6c757d; color: white; border: none; padding: 15px 30px; margin-top: 10px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; }
+        .student-info-bar { background: #e9ecef; padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; font-weight: 500; text-align: center; }
+        .question-block { background: #fff; border: 1px solid #e1e5eb; padding: 20px; border-radius: 10px; margin-bottom: 25px; }
+        .q-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #2c3e50; }
+        .option-label { display: flex; align-items: center; padding: 10px 15px; border: 2px solid #f0f2f5; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .option-input { display: none; }
+        .option-text { display: flex; align-items: center; width: 100%; }
+        .option-text::before { content: ''; width: 20px; height: 20px; border: 2px solid #adb5bd; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
+        .option-input:checked + .option-text::before { border-color: var(--primary); background-color: var(--primary); box-shadow: inset 0 0 0 4px white; }
+        .review-mode .option-label.correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .review-mode .option-label.correct .option-text::after { content: ' ✅'; margin-left: auto; }
+        .review-mode .option-label.wrong { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .review-mode .option-label.wrong .option-text::after { content: ' ❌'; margin-left: auto; }
+        .result-box { text-align: center; padding: 40px 20px; }
+        .score-huge { font-size: 64px; font-weight: 700; color: var(--primary); margin: 20px 0; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header-banner"><h1>BÀI ÔN LUYỆN TIN HỌC 5</h1></div>
+    <div class="content-body">
+        <div id="start-screen">
+            <div class="form-group">
+                <label class="form-label">Họ và tên học sinh:</label>
+                <input type="text" id="student-name" class="form-input" placeholder="Nhập họ tên của em...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Chọn lớp:</label>
+                <select id="student-class" class="form-input">
+                    <option value="" disabled selected>-- Chọn lớp --</option>
+                    <option value="5/1">5/1</option> <option value="5/2">5/2</option> <option value="5/3">5/3</option>
+                    <option value="5/4">5/4</option> <option value="5/5">5/5</option> <option value="5/6">5/6</option>
+                    <option value="5/7">5/7</option> <option value="5/8">5/8</option> <option value="5/9">5/9</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="startQuiz()">BẮT ĐẦU LÀM BÀI</button>
+        </div>
+        <div id="quiz-screen" class="hidden">
+            <div class="student-info-bar">Học sinh: <span id="info-name"></span> - Lớp: <span id="info-class"></span></div>
+            <div id="questions-list"></div>
+            <button class="btn-primary" onclick="submitQuiz()">NỘP BÀI</button>
+        </div>
+        <div id="result-screen" class="hidden result-box">
+            <h2>Kết quả bài ôn luyện</h2>
+            <div class="score-huge" id="res-score">0</div>
+            <h3 id="res-total"></h3>
+            <button class="btn-primary" onclick="reviewQuiz()">🔍 XEM LẠI BÀI ĐÃ LÀM</button>
+            <button class="btn-secondary" onclick="location.reload()">🔄 Làm lại bài mới</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let questions = [
+        { q: "Đâu là danh sách các sản phẩm số mà em có thể tạo ra với sự trợ giúp của máy tính?", a: ["Bài trình chiếu, văn bản, chương trình Scratch, bản nhạc số.", "Bàn ghế, sách vở, bút viết, thước kẻ.", "Bài trình chiếu, cây xanh, chương trình Scratch.", "Văn bản, tranh vẽ trên giấy, bản nhạc số."], correct: 0 },
+        { q: "Máy tính có thể giúp em hợp tác với bạn bè thông qua hoạt động nào dưới đây?", a: ["Cùng nhau chơi lò cò ngoài sân trường.", "Trao đổi thông tin, gửi thư điện tử và làm việc nhóm trực tuyến.", "Cùng nhau dọn dẹp vệ sinh lớp học.", "Đọc sách giấy tại thư viện trường."], correct: 1 },
+        { q: "Theo em, lợi ích chính của việc biết sử dụng máy tính thành thạo là gì?", a: ["Để chơi trò chơi điện tử cả ngày không biết chán.", "Để không phải viết bài bằng tay nữa.", "Giúp em làm được nhiều việc hơn trong học tập, giải trí và sáng tạo.", "Để khoe với bạn bè là mình có máy tính xịn."], correct: 2 },
+        { q: "Bạn Lan muốn tạo một câu chuyện chuyển động để kể cho cả lớp nghe. Phần mềm nào phù hợp nhất?", a: ["Phần mềm soạn thảo văn bản Word.", "Phần mềm lập trình trực quan Scratch.", "Phần mềm bảng tính Excel.", "Phần mềm dọn dẹp rác máy tính."], correct: 1 },
+        { q: "Khi nói về 'sản phẩm số', phát biểu nào sau đây là ĐÚNG?", a: ["Là những sản phẩm chỉ có thể cầm nắm được bằng tay.", "Là những sản phẩm được tạo ra, lưu trữ và xử lý nhờ máy tính.", "Là các thiết bị phần cứng như chuột, bàn phím, màn hình.", "Là sách giáo khoa được in trên giấy."], correct: 1 },
+        { q: "Để tìm kiếm video hướng dẫn gấp máy bay giấy cho trẻ em, địa chỉ nào an toàn nhất?", a: ["google.com", "facebook.com", "youtubekids.com", "zalo.me"], correct: 2 },
+        { q: "Khi muốn tìm kiếm thông tin về 'cách làm hộp quà', dòng chữ em gõ vào ô tìm kiếm gọi là gì?", a: ["Tên miền.", "Địa chỉ trang web.", "Mật khẩu.", "Từ khóa."], correct: 3 },
+        { q: "Vì sao nên xem qua nội dung của video/trang web trước khi quyết định làm theo?", a: ["Để kiểm tra xem nội dung có dễ hiểu và phù hợp với khả năng không.", "Để tăng lượt xem cho chủ kênh.", "Để máy tính chạy nhanh hơn.", "Để biết video dài bao nhiêu phút."], correct: 0 },
+        { q: "Nam muốn tìm video làm thiệp nhưng toàn ra video bán thiệp. Nam nên làm gì?", a: ["Tắt máy tính và không tìm nữa.", "Thay đổi từ khóa tìm kiếm cụ thể hơn.", "Bấm vào tất cả các kết quả để xem thử.", "Ngồi chờ máy tính tự sửa kết quả."], correct: 1 },
+        { q: "Quy trình hợp lý nhất để tìm thông tin giải quyết vấn đề trên Internet là:", a: ["Chọn video đầu tiên -> Làm theo ngay.", "Gõ từ khóa -> Chọn lọc thông tin -> Đọc/Xem kỹ -> Thực hiện.", "Mở trình duyệt -> Gõ phím bất kỳ.", "Nhờ bố mẹ làm hộ."], correct: 1 },
+        { q: "Trong máy tính, thông tin thường được tổ chức lưu trữ dưới dạng nào?", a: ["Dạng danh sách lộn xộn.", "Dạng cây thư mục.", "Dạng hình tròn đồng tâm.", "Dạng ngăn xếp ngẫu nhiên."], correct: 1 },
+        { q: "Công cụ nào trong Windows giúp em xem và quản lý các tệp, thư mục?", a: ["File Explorer.", "Paint.", "PowerPoint.", "Unikey."], correct: 0 },
+        { q: "Việc đặt tên tệp và thư mục gợi nhớ (ví dụ: 'BaiTapToan.docx') có tác dụng gì?", a: ["Giúp máy tính khởi động nhanh hơn.", "Giúp tệp tin trông đẹp mắt hơn.", "Giúp dễ dàng nhận biết nội dung và tìm kiếm nhanh chóng.", "Không có tác dụng gì."], correct: 2 },
+        { q: "Khi quên mất tệp nằm ở đâu, em nên sử dụng tính năng nào?", a: ["Tắt máy đi khởi động lại.", "Mở từng thư mục để tìm thủ công.", "Sử dụng công cụ Tìm kiếm (Search) trong File Explorer.", "Tạo lại tệp mới."], correct: 2 },
+        { q: "Để tìm kiếm tệp có tên chứa từ 'Galaxy', em sẽ thực hiện thao tác nào?", a: ["Nhấn nút nguồn máy tính.", "Gõ từ khóa 'Galaxy' vào ô tìm kiếm trong File Explorer.", "Gõ 'Galaxy' vào Word.", "Hỏi bạn ngồi bên cạnh."], correct: 1 },
+        { q: "Phát biểu nào sau đây về 'Cây thư mục' là ĐÚNG?", a: ["Một thư mục mẹ không thể chứa thư mục con.", "Một tệp có thể chứa được các thư mục.", "Thư mục có thể chứa các tệp và các thư mục con khác.", "Cây thư mục chỉ dùng để trồng cây."], correct: 2 },
+        { q: "Thế nào là tôn trọng bản quyền nội dung thông tin của người khác?", a: ["Tự ý sao chép sản phẩm của bạn.", "Lấy hình ảnh trên mạng không ghi nguồn.", "Xin phép tác giả hoặc ghi rõ nguồn trích dẫn.", "Sửa tên tác giả thành tên mình."], correct: 2 },
+        { q: "Linh sao chép tệp của Sơn và đổi tên để nộp. Hành động của Linh là:", a: ["Thông minh.", "Sai trái, vi phạm đạo đức.", "Bình thường.", "Tốt bụng."], correct: 1 },
+        { q: "Nếu muốn sử dụng nhạc của người nổi tiếng vào video dự thi, em nên làm gì?", a: ["Cứ dùng thoải mái.", "Tìm hiểu quyền sử dụng và ghi rõ tên bài hát, nhạc sĩ.", "Làm méo tiếng đi.", "Nói là mình tự sáng tác."], correct: 1 },
+        { q: "Tại sao không nên tùy tiện xóa/đổi tên tệp của người khác trên máy dùng chung?", a: ["Vì có thể làm mất dữ liệu quan trọng và gây rắc rối.", "Vì máy tính sẽ hỏng.", "Vì tệp đó có virus.", "Vì bàn phím sẽ bị khóa."], correct: 0 },
+        { q: "Bảo vệ thông tin cá nhân và tôn trọng bản quyền thể hiện điều gì?", a: ["Em sợ rắc rối.", "Em là người có văn hóa và tuân thủ pháp luật.", "Em không biết dùng máy tính.", "Em muốn giấu giếm."], correct: 1 },
+        { q: "Để sao chép (Copy) một đoạn văn bản, em dùng tổ hợp phím nào?", a: ["Ctrl + V", "Ctrl + X", "Ctrl + C", "Ctrl + Z"], correct: 2 },
+        { q: "Sự khác nhau giữa Cut (Cắt) và Copy (Sao chép) là gì?", a: ["Lệnh Cut xóa văn bản gốc, Copy giữ nguyên.", "Lệnh Cut di chuyển văn bản gốc, lệnh Copy nhân bản.", "Giống hệt nhau.", "Copy chỉ dùng cho ảnh."], correct: 1 },
+        { q: "Để mở bảng chọn ngữ cảnh (Cut, Copy...), em thực hiện thao tác nào?", a: ["Nháy đúp chuột trái.", "Nháy nút phải chuột vào vùng chọn.", "Nhấn Enter.", "Lăn nút cuộn chuột."], correct: 1 },
+        { q: "Để khôi phục lại đoạn văn vừa lỡ tay xóa, em nhấn nút lệnh nào?", a: ["Save.", "Undo (hoặc Ctrl + Z).", "Redo.", "Delete."], correct: 1 },
+        { q: "Để di chuyển đoạn văn từ trang 1 xuống trang 2, trình tự nào đúng?", a: ["Copy -> Paste.", "Cut -> Paste.", "Delete -> Gõ lại.", "Paste -> Cut."], correct: 1 },
+        { q: "Các nút lệnh B, I, U có chức năng lần lượt là:", a: ["In đậm, In nghiêng, Gạch chân.", "In nghiêng, In đậm, Gạch chân.", "Tô màu, Phóng to, Thu nhỏ.", "Căn trái, Căn giữa, Căn phải."], correct: 0 },
+        { q: "Muốn thay đổi màu sắc cho tiêu đề, em sử dụng công cụ nào?", a: ["Font Size.", "Font Color (chữ A có vạch màu dưới).", "Highlight.", "Font Family."], correct: 1 },
+        { q: "Để chữ to hơn mà không cần gõ lại, Hoa cần làm gì?", a: ["Chọn đoạn văn rồi thay đổi cỡ chữ (Font Size).", "Xóa đi gõ lại.", "Nhìn sát màn hình.", "Bật đèn sáng hơn."], correct: 0 },
+        { q: "Phím tắt Ctrl + V dùng để làm gì?", a: ["Sao chép.", "Cắt.", "Dán (Paste).", "Lưu."], correct: 2 },
+        { q: "Chọn nhanh toàn bộ văn bản bằng tổ hợp phím nào?", a: ["Ctrl + A", "Ctrl + B", "Shift + A", "Alt + F4"], correct: 0 },
+        { q: "Trong thẻ Home, nhóm lệnh Font dùng để làm gì?", a: ["Chỉnh sửa lề giấy.", "Chèn hình ảnh.", "Định dạng kí tự (phông, cỡ, màu...).", "Kiểm tra lỗi."], correct: 2 },
+        { q: "Kết quả tìm kiếm 'Mèo' so với 'Cách nuôi mèo con' sẽ như thế nào?", a: ["Ít hơn, cụ thể hơn.", "Rộng hơn, bao gồm nhiều thứ về mèo.", "Giống hệt nhau.", "Máy tính không hiểu."], correct: 1 },
+        { q: "Tệp tin có biểu tượng chữ 'W' màu xanh dương thường là:", a: ["PowerPoint.", "Word.", "Hình ảnh.", "Scratch."], correct: 1 },
+        { q: "Muốn chuyển thư mục ra Desktop, em dùng cặp lệnh nào?", a: ["Copy và Paste.", "Cut và Paste.", "Rename và Delete.", "Open và Close."], correct: 1 },
+        { q: "Hành động nào giúp tổ chức cây thư mục khoa học?", a: ["Lưu tất cả vào một chỗ.", "Đặt tên ngẫu nhiên.", "Phân loại theo chủ đề và lưu đúng nơi.", "Lưu tràn lan ngoài Desktop."], correct: 2 },
+        { q: "Để xuống dòng bắt đầu đoạn mới, em nhấn phím:", a: ["Space.", "Caps Lock.", "Enter.", "Shift."], correct: 2 },
+        { q: "Tô nhầm màu, cách nhanh nhất để sửa lại là:", a: ["Nhấn Ctrl + Z rồi tô lại.", "Xóa đi gõ lại.", "Tắt phần mềm.", "Gọi điện hỏi cô."], correct: 0 },
+        { q: "Công cụ 'Font' cho phép thay đổi điều gì?", a: ["Độ sáng chữ.", "Hình dáng mặt chữ (ví dụ: Times New Roman).", "Ngôn ngữ.", "Số lượng từ."], correct: 1 },
+        { q: "Để bảo vệ mắt và sức khỏe khi dùng máy tính, em nên:", a: ["Ngồi thật gần.", "Ngồi đúng tư thế, giữ khoảng cách, nghỉ ngơi hợp lý.", "Ngồi liên tục 5 tiếng.", "Tắt hết đèn phòng."], correct: 1 }
+    ];
+
+    let currentQuestions = [];
+    let studentName = "";
+    let studentClass = "";
+
+    function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
+
+    function startQuiz() {
+        studentName = document.getElementById("student-name").value.trim();
+        studentClass = document.getElementById("student-class").value;
+        if (!studentName || !studentClass) { alert("Các em hãy nhập tên và lớp nhé!"); return; }
+        document.getElementById("info-name").textContent = studentName;
+        document.getElementById("info-class").textContent = studentClass;
+        currentQuestions = JSON.parse(JSON.stringify(questions));
+        shuffleArray(currentQuestions);
+        currentQuestions.forEach(q => {
+            let correctText = q.a[q.correct];
+            shuffleArray(q.a);
+            q.correct = q.a.indexOf(correctText);
+        });
+        document.getElementById("start-screen").classList.add("hidden");
+        document.getElementById("quiz-screen").classList.remove("hidden");
+        renderQuestions();
+        window.scrollTo(0,0);
+    }
+
+    function renderQuestions() {
+        const list = document.getElementById("questions-list");
+        list.innerHTML = "";
+        currentQuestions.forEach((q, i) => {
+            const div = document.createElement("div");
+            div.className = "question-block";
+            div.innerHTML = `<div class="q-title">Câu ${i+1}: ${q.q}</div>`;
+            q.a.forEach((opt, oi) => {
+                div.innerHTML += `<label class="option-label"><input type="radio" name="q-${i}" value="${oi}" class="option-input"><span class="option-text">${opt}</span></label>`;
+            });
+            list.appendChild(div);
+        });
+    }
+
+    function submitQuiz() {
+        if (!confirm("Em có muốn nộp bài không?")) return;
+        let score = 0;
+        currentQuestions.forEach((q, i) => {
+            const sel = document.querySelector(`input[name="q-${i}"]:checked`);
+            if (sel) {
+                if (parseInt(sel.value) === q.correct) { score++; sel.parentElement.classList.add("correct"); }
+                else { sel.parentElement.classList.add("wrong"); }
+            }
+            document.querySelectorAll(`input[name="q-${i}"]`).forEach(inp => inp.disabled = true);
+        });
+        document.getElementById("questions-list").classList.add("review-mode");
+        document.getElementById("quiz-screen").classList.add("hidden");
+        document.getElementById("result-screen").classList.remove("hidden");
+        document.getElementById("res-score").textContent = score;
+        document.getElementById("res-total").textContent = `trên tổng số ${currentQuestions.length} câu`;
+        window.scrollTo(0,0);
+    }
+
+    function reviewQuiz() { document.getElementById("result-screen").classList.add("hidden"); document.getElementById("quiz-screen").classList.remove("hidden"); window.scrollTo(0,0); }
+</script>
+</body>
+</html>
