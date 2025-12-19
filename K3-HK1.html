@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Tin Học Lớp 3 - HK1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8C00; /* Màu cam năng động cho lớp 3 */
+            --primary-hover: #e07b00;
+            --bg-color: #FFF8E1; /* Màu nền vàng nhạt dịu mắt */
+            --text-color: #4a4a4a;
+            --success: #4CAF50; /* Màu xanh lá tươi */
+            --error: #FF5252;   /* Màu đỏ */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Font chữ dễ đọc */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0; padding: 20px; line-height: 1.6;
+        }
+
+        .main-container {
+            background: #fff; max-width: 800px; margin: 0 auto;
+            border-radius: 20px; /* Bo tròn nhiều hơn cho dễ thương */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden; border: 3px solid #FFCC80;
+        }
+
+        .header-banner {
+            background: var(--primary); color: white;
+            padding: 25px; text-align: center;
+            font-family: 'Fredoka', sans-serif; /* Font tiêu đề ngộ nghĩnh */
+        }
+        .header-banner h1 { margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 1px; }
+        .header-banner p { margin: 5px 0 0; font-size: 16px; opacity: 0.9; }
+
+        .content-body { padding: 30px; }
+
+        /* Form nhập liệu */
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 18px; }
+        .form-input {
+            width: 100%; padding: 15px;
+            border: 2px solid #ddd; border-radius: 12px;
+            font-size: 18px; box-sizing: border-box; transition: border 0.3s;
+        }
+        .form-input:focus { border-color: var(--primary); outline: none; }
+
+        /* Nút bấm to hơn cho lớp 3 */
+        .btn-primary {
+            background: var(--primary); color: white;
+            border: none; padding: 18px 30px;
+            border-radius: 15px; font-size: 20px; font-weight: 700; font-family: 'Fredoka', sans-serif;
+            cursor: pointer; width: 100%; transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 0 #d37200; /* Hiệu ứng nút nổi */
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+        .btn-primary:active { transform: translateY(2px); box-shadow: none; }
+        
+        .btn-secondary {
+            background: #78909C; color: white;
+            border: none; padding: 15px 30px; margin-top: 15px;
+            border-radius: 12px; font-size: 18px; font-weight: 700;
+            cursor: pointer; width: 100%;
+        }
+
+        .student-info-bar {
+            background: #FFE0B2; padding: 15px 20px; color: #E65100;
+            border-radius: 12px; margin-bottom: 25px; font-weight: 600; font-size: 18px; text-align: center;
+        }
+        
+        /* Giao diện câu hỏi */
+        .question-block {
+            background: #fff; border: 2px solid #eee;
+            padding: 20px; border-radius: 15px; margin-bottom: 25px;
+            position: relative;
+        }
+
+        .q-title {
+            font-size: 20px; font-weight: 700; margin-bottom: 15px; color: #E65100;
+        }
+
+        .option-label {
+            display: flex; align-items: center;
+            padding: 12px 15px; border: 2px solid #f0f2f5;
+            border-radius: 10px; margin-bottom: 12px;
+            cursor: pointer; transition: all 0.2s; font-size: 18px;
+        }
+        .option-label:hover { background: #FFF3E0; border-color: #FFCC80; }
+        
+        .option-input:checked + .option-text { color: #E65100; font-weight: 600; }
+        .option-input:checked + .option-text::before {
+             border-color: var(--primary); background-color: var(--primary);
+             box-shadow: inset 0 0 0 4px white;
+        }
+
+        .option-input { display: none; }
+        .option-text { display: flex; align-items: center; width: 100%; }
+        .option-text::before {
+            content: ''; width: 24px; height: 24px;
+            border: 2px solid #adb5bd; border-radius: 50%;
+            margin-right: 15px; flex-shrink: 0; transition: all 0.2s;
+        }
+
+        /* --- CHẾ ĐỘ XEM LẠI --- */
+        .review-mode .option-input { pointer-events: none; }
+        
+        .review-mode .option-label.correct {
+            background-color: #E8F5E9; border-color: #A5D6A7; color: #2E7D32;
+        }
+        .review-mode .option-label.correct .option-text::after {
+            content: ' ✅ Đúng rồi!'; margin-left: auto; font-weight: bold; font-size: 16px;
+        }
+
+        .review-mode .option-label.wrong {
+            background-color: #FFEBEE; border-color: #EF9A9A; color: #C62828;
+        }
+        .review-mode .option-label.wrong .option-text::after {
+            content: ' ❌ Sai nhé'; margin-left: auto; font-weight: bold; font-size: 16px;
+        }
+
+        .submit-section { margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee; }
+
+        .result-box { text-align: center; padding: 40px 20px; }
+        .score-huge { font-size: 80px; font-weight: 700; color: var(--primary); margin: 10px 0; font-family: 'Fredoka', sans-serif; }
+        
+        .loading-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.95); z-index:999; display:flex; justify-content:center; align-items:center; font-size:24px; color: var(--primary); font-weight: bold; flex-direction: column; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="header-banner">
+        <h1>BÀI TẬP TIN HỌC LỚP 3</h1>
+        <p>Ôn tập Học kỳ I (Bài 1 - Bài 7)</p>
+    </div>
+
+    <div class="content-body">
+        <div id="start-screen">
+            <p style="text-align: center; margin-bottom: 30px; font-size: 18px;">Chào các con! Hãy nhập tên và chọn lớp để bắt đầu làm bài nhé!</p>
+            <div class="form-group">
+                <label class="form-label">Họ và tên của con:</label>
+                <input type="text" id="student-name" class="form-input" placeholder="Ví dụ: Nguyễn Văn An">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Con học lớp nào?</label>
+                <select id="student-class" class="form-input">
+                    <option value="" disabled selected>-- Chọn lớp --</option>
+                    <option value="3/4">3/4</option> <option value="3/5">3/5</option>
+                    <option value="3/8">3/8</option> <option value="3/9">3/9</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="startQuiz()">BẮT ĐẦU LÀM BÀI 🚀</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="student-info-bar">
+                Bạn: <span id="info-name"></span> - Lớp: <span id="info-class"></span>
+            </div>
+            <div id="questions-list"></div>
+            <div class="submit-section" id="submit-btn-area">
+                <button class="btn-primary submit-btn" onclick="submitQuiz()">NỘP BÀI 📝</button>
+            </div>
+            <div class="submit-section hidden" id="review-btn-area">
+                 <button class="btn-primary" onclick="location.reload()">LÀM LẠI BÀI KHÁC 🔄</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden result-box">
+            <h2 style="color: #E65100;">🎉 Hoàn thành bài làm! 🎉</h2>
+            <div class="student-info-bar" style="background:white; border: 2px dashed #FFCC80;">
+                Học sinh: <strong id="res-name"></strong> - Lớp: <strong id="res-class"></strong>
+            </div>
+            
+            <p style="font-size: 20px; color: #555;">Số câu trả lời đúng:</p>
+            <div class="score-huge" id="res-score">0</div>
+            <h3 id="res-total" style="color: #777;"></h3>
+            
+            <div id="connection-status" style="margin-top: 20px; font-weight: 500;"></div>
+            
+            <button class="btn-primary" onclick="reviewQuiz()">🔍 XEM LẠI BÀI VỪA LÀM</button>
+            <button class="btn-secondary" onclick="location.reload()">🏠 Quay về màn hình chính</button>
+        </div>
+    </div>
+</div>
+
+<div id="loading" class="loading-overlay hidden">
+    <div style="font-size: 50px;">⏳</div>
+    <div>Đang chấm điểm...<br>Đợi xíu nhé!</div>
+</div>
+
+<script>
+// ============================================================
+// QUAN TRỌNG: DÁN LINK GOOGLE SHEET (WEB APP URL) CỦA BẠN VÀO DƯỚI ĐÂY:
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzc_jdkgffFkS9aXUT3mdTXHqYY7dolPhp10eTm08kYBQ6mFi09-Qv8s-q0DjXKhP3Crg/exec'; 
+// ============================================================
+
+    // DANH SÁCH 30 CÂU HỎI ĐA DẠNG (BÀM SÁT BÀI 1 - 7 CHÂN TRỜI SÁNG TẠO)
+    let questions = [
+        // --- DẠNG 1: TƯ DUY GHÉP ĐÔI (MATCHING) ---
+        { q: "Hãy chọn cặp ghép đúng giữa bộ phận máy tính và chức năng:", a: ["Bàn phím - Dùng để xem hình ảnh.", "Thân máy - Xử lý thông tin (giống bộ não).", "Loa - Dùng để gõ chữ.", "Màn hình - Dùng để nghe nhạc."], correct: 1 },
+        { q: "Ghép đôi hoạt động và dạng thông tin tương ứng:", a: ["Nghe tiếng trống trường - Thông tin dạng Hình ảnh.", "Nhìn thấy đèn giao thông - Thông tin dạng Âm thanh.", "Đọc sách giáo khoa - Thông tin dạng Chữ (Văn bản).", "Ngửi thấy mùi hoa - Thông tin dạng Văn bản."], correct: 2 },
+        { q: "Cặp ngón tay nào phụ trách gõ phím Cách (Space) dài nhất?", a: ["Hai ngón út.", "Hai ngón trỏ.", "Hai ngón cái.", "Ngón giữa và ngón áp út."], correct: 2 },
+
+        // --- DẠNG 2: ĐIỀN VÀO CHỖ TRỐNG (FILL IN THE BLANK) ---
+        { q: "Điền từ thích hợp: 'Máy tính để bàn có 4 bộ phận chính là: Màn hình, Thân máy, Bàn phím và ......'", a: ["Loa.", "Chuột máy tính.", "Máy in.", "Tai nghe."], correct: 1 },
+        { q: "Điền vào chỗ trống: 'Hai phím có gai F và J nằm ở hàng phím ......'", a: ["Cơ sở.", "Trên.", "Dưới.", "Số."], correct: 0 },
+        { q: "Hoàn thiện câu: 'Sắp xếp đồ dùng học tập ngăn nắp sẽ giúp em tìm kiếm ......'", a: ["lâu hơn.", "khó khăn hơn.", "nhanh chóng và dễ dàng hơn.", "mất nhiều thời gian hơn."], correct: 2 },
+        { q: "Điền từ còn thiếu: 'Kết quả của việc xử lý thông tin là ......'", a: ["Thông tin vào.", "Quyết định hoặc hành động.", "Tiếng ồn.", "Dữ liệu rác."], correct: 1 },
+
+        // --- DẠNG 3: XỬ LÝ TÌNH HUỐNG (SITUATION) - BÀI 1 & 6 ---
+        { q: "Tình huống: Em đang xem phim hoạt hình trên Internet thì hiện ra một quảng cáo lạ với hình ảnh đáng sợ. Em nên làm gì?", a: ["Tò mò bấm vào xem thử.", "Tắt ngay quảng cáo hoặc nhờ bố mẹ giúp đỡ.", "Gửi đường link đó cho bạn bè.", "Ngồi khóc."], correct: 1 },
+        { q: "Tình huống: Sáng nay ngủ dậy, em nhìn thấy trời mưa to (Thông tin). Quyết định của em là gì?", a: ["Mặc áo mưa khi đi học.", "Mặc quần áo cộc cho mát.", "Rủ bạn ra tắm mưa.", "Mở cửa sổ để nước mưa tạt vào nhà."], correct: 0 },
+        { q: "Tình huống: Người lạ trên mạng xin địa chỉ nhà và số điện thoại của em. Em sẽ làm gì?", a: ["Cho ngay vì họ nói chuyện rất vui vẻ.", "Không cho và chặn người đó, báo cho bố mẹ.", "Chỉ cho số điện thoại chứ không cho địa chỉ.", "Nói dối địa chỉ nhà hàng xóm."], correct: 1 },
+
+        // --- DẠNG 4: TÌM LỖI SAI (SPOT THE ERROR) ---
+        { q: "Tìm hành động SAI khi sử dụng máy tính:", a: ["Ngồi thẳng lưng, mắt nhìn ngang tầm màn hình.", "Gõ phím nhẹ nhàng, dứt khoát.", "Vừa ăn bim bim vừa dùng tay dính mỡ cầm chuột.", "Giữ khoảng cách mắt đến màn hình từ 50-80cm."], correct: 2 },
+        { q: "Phát biểu nào sau đây là SAI về Internet?", a: ["Internet giúp em học tiếng Anh.", "Internet giúp em xem dự báo thời tiết.", "Thông tin nào trên Internet cũng đúng và an toàn tuyệt đối.", "Internet giúp em liên lạc với người thân ở xa."], correct: 2 },
+        { q: "Chi tiết nào SAI khi mô tả về Máy tính bảng?", a: ["Có màn hình cảm ứng.", "Không có bàn phím tách rời.", "Nhỏ gọn, dễ cầm trên tay.", "Luôn luôn phải dùng chuột dây mới điều khiển được."], correct: 3 },
+
+        // --- DẠNG 5: SẮP XẾP QUY TRÌNH (ORDERING) ---
+        { q: "Quy trình tắt máy tính đúng cách trên hệ điều hành Windows là gì?", a: ["Bấm nút công tắc trên ổ điện -> Máy tắt.", "Rút phích cắm điện ngay lập tức.", "Nhấn nút Start -> Chọn Power -> Chọn Shut down.", "Lấy khăn che màn hình lại là xong."], correct: 2 },
+        { q: "Thứ tự các bước xử lý thông tin của con người là gì?", a: ["Xử lý -> Thu nhận -> Ra quyết định.", "Thu nhận thông tin -> Xử lý thông tin -> Ra quyết định.", "Ra quyết định -> Thu nhận -> Xử lý.", "Không có thứ tự nào cả."], correct: 1 },
+
+        // --- DẠNG 6: NHẬN DIỆN HÌNH ẢNH & THAO TÁC (BÀI 4, 5) ---
+        { q: "Thao tác 'Nháy đúp chuột' được thực hiện như thế nào?", a: ["Nhấn nút trái chuột 1 lần.", "Nhấn nút phải chuột 1 lần.", "Nhấn nút trái chuột 2 lần liên tiếp thật nhanh.", "Nhấn giữ nút trái chuột và di chuyển."], correct: 2 },
+        { q: "Khi đặt tay lên bàn phím, hai ngón trỏ phải đặt lên hai phím nào?", a: ["Phím G và H.", "Phím F và J.", "Phím A và ;", "Phím D và K."], correct: 1 },
+        { q: "Biểu tượng loa trên máy tính thường dùng để điều chỉnh gì?", a: ["Độ sáng màn hình.", "Âm lượng (To/Nhỏ) của âm thanh.", "Kết nối mạng.", "Giờ giấc."], correct: 1 },
+
+        // --- DẠNG 7: PHÂN LOẠI & SẮP XẾP (BÀI 7 - TƯ DUY) ---
+        { q: "Tại sao chúng ta nên phân loại rác (rác tái chế, rác hữu cơ...) vào các thùng khác nhau?", a: ["Để cho vui mắt.", "Để rác không bị buồn chán.", "Để việc xử lý rác dễ dàng và bảo vệ môi trường.", "Để thùng rác trông đẹp hơn."], correct: 2 },
+        { q: "Bạn Lan có rất nhiều ảnh: ảnh đi biển, ảnh sinh nhật, ảnh về quê. Lan nên làm gì để dễ tìm lại sau này?", a: ["Để tất cả chung vào một chỗ lộn xộn.", "Chia thành các nhóm (album) riêng biệt: Đi biển, Sinh nhật, Về quê.", "Xóa hết ảnh đi.", "In tất cả ra giấy rồi vứt đi."], correct: 1 },
+        { q: "Trong tủ quần áo, việc treo áo sơ mi vào một ngăn, quần dài vào một ngăn gọi là gì?", a: ["Làm bừa bộn.", "Trang trí tủ.", "Phân loại và sắp xếp.", "Giặt quần áo."], correct: 2 },
+
+        // --- DẠNG 8: KIẾN THỨC TỔNG HỢP (BÀI 1-7) ---
+        { q: "Thông tin thu nhận được từ Radio (Đài phát thanh) chủ yếu là dạng gì?", a: ["Văn bản.", "Hình ảnh.", "Âm thanh.", "Mùi vị."], correct: 2 },
+        { q: "Máy tính xách tay (Laptop) có vùng cảm ứng chuột (Touchpad) nằm ở đâu?", a: ["Gắn liền trên thân máy, phía dưới bàn phím.", "Nằm tách rời bên ngoài.", "Nằm trên màn hình.", "Laptop không có chuột."], correct: 0 },
+        { q: "Phím nào giúp xóa kí tự đứng ĐẰNG TRƯỚC (bên trái) con trỏ soạn thảo?", a: ["Delete.", "Enter.", "Backspace.", "Shift."], correct: 2 },
+        { q: "Phím Caps Lock dùng để làm gì?", a: ["Xuống dòng.", "Cách một khoảng trắng.", "Bật chế độ gõ chữ IN HOA.", "Xóa kí tự."], correct: 2 },
+        { q: "Chuột máy tính thường có mấy bộ phận cơ bản?", a: ["1 nút duy nhất.", "2 nút (Trái, Phải) và nút cuộn ở giữa.", "5 nút bấm.", "Không có nút nào."], correct: 1 },
+        { q: "Hàng phím nằm ngay phía trên hàng phím cơ sở gọi là gì?", a: ["Hàng phím số.", "Hàng phím dưới.", "Hàng phím trên.", "Hàng phím cách."], correct: 2 }
+    ];
+
+    let studentName = "";
+    let studentClass = "";
+    let currentQuestions = [];
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const questionsList = document.getElementById("questions-list");
+    const loadingOverlay = document.getElementById("loading");
+
+    // Xáo trộn mảng
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Chuẩn bị câu hỏi (xáo trộn)
+    function prepareQuestions() {
+        let tempQuestions = JSON.parse(JSON.stringify(questions));
+        shuffleArray(tempQuestions);
+        tempQuestions.forEach(q => {
+            let correctAnswerText = q.a[q.correct];
+            shuffleArray(q.a);
+            q.correct = q.a.indexOf(correctAnswerText);
+        });
+        return tempQuestions;
+    }
+
+    function startQuiz() {
+        const nameInput = document.getElementById("student-name").value.trim();
+        const classInput = document.getElementById("student-class").value;
+
+        if (nameInput === "" || classInput === "") {
+            alert("Con nhớ nhập Tên và chọn Lớp nhé!");
+            return;
+        }
+
+        studentName = nameInput;
+        studentClass = classInput;
+        document.getElementById("info-name").textContent = studentName;
+        document.getElementById("info-class").textContent = studentClass;
+
+        currentQuestions = prepareQuestions();
+
+        startScreen.classList.add("hidden");
+        quizScreen.classList.remove("hidden");
+        renderQuestions();
+        window.scrollTo(0, 0);
+    }
+
+    function renderQuestions() {
+        questionsList.innerHTML = "";
+        currentQuestions.forEach((q, index) => {
+            const qBlock = document.createElement("div");
+            qBlock.className = "question-block";
+            
+            const qTitle = document.createElement("div");
+            qTitle.className = "q-title";
+            qTitle.textContent = `Câu ${index + 1}: ${q.q}`;
+            qBlock.appendChild(qTitle);
+
+            const optionsDiv = document.createElement("div");
+            q.a.forEach((optionText, optIndex) => {
+                const label = document.createElement("label");
+                label.className = "option-label";
+                
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `q-${index}`;
+                input.value = optIndex;
+                input.className = "option-input";
+
+                const span = document.createElement("span");
+                span.className = "option-text";
+                span.textContent = optionText;
+
+                label.appendChild(input);
+                label.appendChild(span);
+                optionsDiv.appendChild(label);
+            });
+            qBlock.appendChild(optionsDiv);
+            questionsList.appendChild(qBlock);
+        });
+    }
+
+    function submitQuiz() {
+        if (!confirm("Con đã kiểm tra kĩ bài chưa? Bấm OK để nộp nhé!")) { return; }
+
+        loadingOverlay.classList.remove("hidden");
+        let score = 0;
+
+        // Chấm điểm
+        currentQuestions.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="q-${index}"]:checked`);
+            
+            if (selected) {
+                if (parseInt(selected.value) === q.correct) {
+                    score++;
+                    selected.parentElement.classList.add("correct");
+                } else {
+                    selected.parentElement.classList.add("wrong");
+                }
+            }
+            
+            // Khóa lại
+            const allInputs = document.querySelectorAll(`input[name="q-${index}"]`);
+            allInputs.forEach(inp => inp.disabled = true);
+        });
+
+        questionsList.classList.add("review-mode");
+        document.getElementById("submit-btn-area").classList.add("hidden");
+        document.getElementById("review-btn-area").classList.remove("hidden");
+
+        showResult(score);
+        sendToGoogleSheet(score);
+    }
+
+    function showResult(finalScore) {
+        quizScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        document.getElementById("res-name").textContent = studentName;
+        document.getElementById("res-class").textContent = studentClass;
+        document.getElementById("res-score").textContent = `${finalScore}`;
+        document.getElementById("res-total").textContent = `trên tổng số ${currentQuestions.length} câu`;
+        
+        window.scrollTo(0, 0);
+    }
+
+    function reviewQuiz() {
+        resultScreen.classList.add("hidden");
+        quizScreen.classList.remove("hidden");
+        window.scrollTo(0, 0);
+    }
+
+    function sendToGoogleSheet(finalScore) {
+        const statusEl = document.getElementById("connection-status");
+        statusEl.textContent = "Đang gửi kết quả cho thầy...";
+        statusEl.style.color = "blue";
+
+        const formData = new FormData();
+        formData.append('Họ tên', studentName);
+        formData.append('Lớp', studentClass);
+        formData.append('Điểm số', finalScore);
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+                statusEl.innerHTML = "✅ Đã nộp bài thành công!";
+                statusEl.style.color = "green";
+            })
+            .catch(error => {
+                statusEl.innerHTML = "⚠️ Lỗi kết nối. Con chụp màn hình gửi thầy nhé!";
+                statusEl.style.color = "red";
+            })
+            .finally(() => {
+                loadingOverlay.classList.add("hidden");
+            });
+    }
+</script>
+
+</body>
+</html>
