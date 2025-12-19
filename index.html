@@ -50,55 +50,43 @@
 
     // --- PHẦN CHỈNH SỬA: Đã thêm đường dẫn (link) vào mục đầu tiên ---
     const resources = [
-      { 
-        icon: "📝", 
-        title: "Bài Kiểm Tra Trắc Nghiệm", 
-        description: "Bấm vào đây để làm bài kiểm tra Tin học Khối 5",
-        grade: "Khối 5", // Đã sửa thành Khối 5 cho đúng yêu cầu
-        color: "#3b82f6",
-        link: "chon-khoi.html" // <--- ĐÃ THÊM LINK VÀO ĐÂY
-      },
-      { 
-        icon: "🎮", 
-        title: "Scratch - Lập Trình", 
-        description: "Học lập trình Scratch qua các dự án thú vị",
-        grade: "Khối 4-5",
-        color: "#f59e0b",
-        link: "#" // Link tạm thời
-      },
-      { 
-        icon: "💻", 
-        title: "Tin Học Cơ Bản", 
-        description: "Kiến thức nền tảng về máy tính và công nghệ",
-        grade: "Khối 3",
-        color: "#10b981",
+    {
+        title: "Góc học tập Khối 3",
+        desc: "Các bài học làm quen máy tính dành cho học sinh lớp 3.",
+        icon: "🎮",
+        link: "#" // Sau này thầy tạo trang riêng cho lớp 3 thì thay link vào đây
+    },
+    {
+        title: "Góc học tập Khối 4",
+        desc: "Học soạn thảo văn bản và thiết kế bài trình chiếu Powerpoint.",
+        icon: "💻",
         link: "#"
-      },
-      { 
-        icon: "🔍", 
-        title: "Tìm Kiếm Thông Tin", 
-        description: "Hướng dẫn tìm kiếm và sử dụng Internet an toàn",
-        grade: "Khối 4-5",
-        color: "#8b5cf6",
+    },
+    {
+        title: "Góc học tập Khối 5",
+        desc: "Thế giới lập trình Scratch và các kỹ năng công nghệ thông tin.",
+        icon: "🚀",
         link: "#"
-      },
-      { 
-        icon: "📊", 
-        title: "File Explorer", 
-        description: "Quản lý tệp tin và thư mục trên máy tính",
-        grade: "Khối 3-4",
-        color: "#ec4899",
+    },
+    {
+        title: "Ngân hàng đề ôn tập",
+        desc: "Luyện tập trắc nghiệm kiến thức cho cả 3 khối lớp.",
+        icon: "📝",
+        link: "chon-khoi.html" // Link này dẫn đến trang chọn khối thầy đã làm
+    },
+    {
+        title: "Sản phẩm học sinh",
+        desc: "Khen ngợi các bài làm xuất sắc của học sinh An Lạc 1.",
+        icon: "🏆",
         link: "#"
-      },
-      { 
-        icon: "🎨", 
-        title: "Sản Phẩm Số", 
-        description: "Tạo bài trình chiếu, văn bản và nội dung số",
-        grade: "Khối 3-5",
-        color: "#06b6d4",
+    },
+    {
+        title: "Thông báo & Dặn dò",
+        desc: "Cập nhật lịch thi, lịch kiểm tra và thông tin lớp học.",
+        icon: "📢",
         link: "#"
-      }
-    ];
+    }
+]
 
     const grades = [
       { name: "Khối 3", students: "25-30 học sinh", color: "#3b82f6" },
@@ -380,6 +368,7 @@
   </script>
 </body>
 </html>
+
 
 
 
