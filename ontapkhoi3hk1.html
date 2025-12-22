@@ -217,6 +217,24 @@ const scriptURL = 'https://script.google.com/macros/s/AKfycbzc_jdkgffFkS9aXUT3md
 
     // DANH SÁCH 30 CÂU HỎI ĐA DẠNG (BÀM SÁT BÀI 1 - 7 CHÂN TRỜI SÁNG TẠO)
     let questions = [
+        { q: "Thiết bị nào dùng để đưa thông tin vào máy tính? ⌨️🖱️", a: ["Bàn phím, chuột.", "Bàn phím, chuột, màn hình cảm ứng.", "Bàn phím, màn hình."], correct: 1 },
+        { q: "Thao tác nháy đúp chuột được thực hiện như thế nào? 🖱️", a: ["Nháy nút trái chuột hai lần liên tiếp.", "Nhấn một lần nút chuột trái.", "Nhấn một lần nút chuột phải."], correct: 0 },
+        { q: "Khi đặt tay lên bàn phím, hai ngón tay cái đặt ở phím nào? ⌨️", a: ["Phím cơ sở.", "Phím cách (Space).", "Phím Caps Lock."], correct: 1 },
+        { q: "Trong các hình sau, đâu là biểu tượng của Thư mục (Folder)?", a: ["📄 (Tệp tin)", "🎬 (Video)", "📁 (Thư mục màu vàng)"], correct: 2 },
+        { q: "Để tạo một thư mục (Folder) mới, em chọn nút lệnh nào? 📁🆕", a: ["New folder", "View", "Delete"], correct: 0 },
+        { 
+            q: "Đâu là biểu tượng của trình duyệt Google Chrome?", 
+            a: [
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" width="30" style="vertical-align: middle; margin-right: 10px;">', 
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" width="30" style="vertical-align: middle; margin-right: 10px;">', 
+                '<img src="https://img.icons8.com/color/48/folder-invoices.png" width="30" style="vertical-align: middle; margin-right: 10px;">'
+            ], 
+            correct: 1 
+        },
+        { q: "Lời giảng bài của thầy cô mà em nghe là thông tin dạng nào? 🗣️", a: ["Dạng Hình ảnh", "Dạng Chữ", "Dạng Âm thanh"], correct: 2 },
+        { q: "Tư thế ngồi đúng khi làm việc với máy tính là: 🧘‍♂️", a: ["Lưng thẳng, mắt cách màn hình 50-80 cm.", "Ngồi tựa sát vào màn hình.", "Ngồi nằm ra ghế cho thoải mái."], correct: 0 },
+        { q: "Để an toàn khi làm việc với máy tính, em nên làm gì? 🛡️", a: ["Dùng khăn ướt để lau máy.", "Để đồ ăn, nước uống cạnh máy.", "Đặt máy nơi khô ráo, sạch sẽ."], correct: 2 },
+        { q: "Có bao nhiêu cách sắp xếp thường gặp? 📦", a: ["Có 2 cách", "Có 3 cách", "Có 4 cách"], correct: 0 },
         // --- DẠNG 1: TƯ DUY GHÉP ĐÔI (MATCHING) ---
         { q: "Hãy chọn cặp ghép đúng giữa bộ phận máy tính và chức năng:", a: ["Bàn phím - Dùng để xem hình ảnh.", "Thân máy - Xử lý thông tin (giống bộ não).", "Loa - Dùng để gõ chữ.", "Màn hình - Dùng để nghe nhạc."], correct: 1 },
         { q: "Ghép đôi hoạt động và dạng thông tin tương ứng:", a: ["Nghe tiếng trống trường - Thông tin dạng Hình ảnh.", "Nhìn thấy đèn giao thông - Thông tin dạng Âm thanh.", "Đọc sách giáo khoa - Thông tin dạng Chữ (Văn bản).", "Ngửi thấy mùi hoa - Thông tin dạng Văn bản."], correct: 2 },
@@ -337,7 +355,7 @@ const scriptURL = 'https://script.google.com/macros/s/AKfycbzc_jdkgffFkS9aXUT3md
 
                 const span = document.createElement("span");
                 span.className = "option-text";
-                span.textContent = optionText;
+                span.innerHTML = optionText;
 
                 label.appendChild(input);
                 label.appendChild(span);
