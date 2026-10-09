@@ -4,21 +4,28 @@ const soon = {s:'Sắp có'}, doing = {s:'Đang triển khai'};
 const L = (t,href,s) => ({t,href,s});
 
 const DATA = {
-  hoc:{title:'Học tập', sub:'Tin học 3, 4, 5 theo sách Kết nối tri thức với cuộc sống.', origin:[0,40], groups:[
+  hoc:{title:'Học tập', sub:'Tin học 3, 4, 5 theo sách Kết nối tri thức với cuộc sống.', origin:[10,45], groups:[
     {h:'Củng cố kiến thức', r:[L('Vào khu Học tập','hoc-tap/')]},
-    {h:'Tin học 3', r:[L('Bài học','index-cu.html'),L('Ôn tập học kỳ I','ontapkhoi3hk1.html')]},
+    {h:'Tin học 3', r:[L('16 bài củng cố','hoc-tap/khoi.html?k=3'),L('Ôn tập học kỳ I','ontapkhoi3hk1.html')]},
     {h:'Tin học 4', r:[L('Bài học','index-cu.html'),L('Ôn tập học kỳ I',null,'Sắp có')]},
     {h:'Tin học 5', r:[L('Bài học',null,'Sắp có'),L('Ôn tập học kỳ I','ontapkhoi5hk1.html')]},
     {h:'Chưa biết chọn khối nào?', r:[L('Trang chọn khối ôn tập','chon-khoi.html')]}
   ]},
-  icdl:{title:'ICDL', sub:'Tin học Quốc tế: ôn luyện tại nhà, mọi lúc mọi nơi.', origin:[10,40], groups:[
+  icdl:{title:'ICDL', sub:'Tin học Quốc tế: ôn luyện tại nhà, mọi lúc mọi nơi.', origin:[25,45], groups:[
     {h:'Khối 3 — First Step', r:[L('Luyện tập',null,'Sắp có')]},
     {h:'Khối 4 — Application Basic', r:[L('Luyện tập',null,'Sắp có')]},
     {h:'Khối 5 — Online Basic', r:[L('Luyện tập',null,'Sắp có')]}
   ]},
-  kham:{title:'Khám phá', sub:'Lập trình, AI và công nghệ: học để làm chủ, dùng an toàn.', origin:[25,40], groups:[
-    {h:'Lập trình', r:[L('Scratch',null,'Đang triển khai'),L('Python',null,'Sắp có')]},
-    {h:'AI & Công nghệ', r:[L('AI trong học tập',null,'Sắp có'),L('AI & sáng tạo',null,'Sắp có'),L('An toàn số',null,'Sắp có'),L('Công nghệ mới',null,'Sắp có')]}
+  lap:{title:'Lập trình', sub:'Học cách ra lệnh cho máy tính bằng khối lệnh rồi bằng chữ.', origin:[40,45], groups:[
+    {h:'Khu Lập trình', r:[L('Vào khu Lập trình','lap-trinh/')]},
+    {h:'Scratch', r:[L('Bài học',null,'Đang triển khai')]},
+    {h:'Python', r:[L('Bài học',null,'Sắp có')]}
+  ]},
+  ai:{title:'AI & Công nghệ', sub:'Hiểu AI là gì, phân biệt thật và giả, dùng an toàn.', origin:[55,45], groups:[
+    {h:'Khu AI & Công nghệ', r:[L('Vào khu AI & Công nghệ','ai-cong-nghe/')]},
+    {h:'Hiểu', r:[L('AI quanh em',null,'Sắp có')]},
+    {h:'Phân biệt', r:[L('Thật hay AI vẽ?',null,'Sắp có')]},
+    {h:'An toàn', r:[L('Dùng AI an toàn',null,'Sắp có')]}
   ]},
   menu:{title:'Menu', sub:'', menu:true},
   project:{title:'Dự án', sub:'Sản phẩm của học sinh sẽ được trưng bày tại đây.', groups:[{h:'Chưa có dự án', r:[L('Dự án đầu tiên',null,'Sắp có')]}]},
@@ -51,7 +58,7 @@ function open(k, from){
     stage.style.transformOrigin = d.origin[0]+'% '+d.origin[1]+'%';
     stage.style.setProperty('--z','1.06');
   }
-  const hot = {hoc:'#h-hoc',icdl:'#h-icdl',kham:'#h-kham'}[k]; if(hot) $(hot).classList.add('on');
+  const hot = {hoc:'#h-hoc',icdl:'#h-icdl',lap:'#h-lap',ai:'#h-ai'}[k]; if(hot) $(hot).classList.add('on');
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
   $('#close').focus();
 }

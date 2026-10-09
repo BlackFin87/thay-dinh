@@ -1,43 +1,49 @@
 /* Đ-LAB shared foundation: change colours/fonts here once, every page follows. */
 :root{
-  --ink:#0d1537; --panel:#141d4a; --panel2:#1b2760; --line:#2b3770;
-  --text:#eef2ff; --muted:#aab4e0; --amber:#fbbf24; --cyan:#22d3ee; --ok:#4ade80;
-  --ar:1.9318; --r:16px;
+  --bg:#fff8e8; --panel:#ffffff; --panel2:#fdf0d5; --line:#e6d3a3;
+  --text:#1b2a5c; --muted:#56608a; --ok:#166534;
+  --accent:#c8321f; /* đỏ phượng; mỗi khu đổi màu bên dưới */
+  --ar:1.7768; --r:16px;
   --font:"Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
 }
+/* Mỗi khu một màu, lấy từ ba cổng ở sảnh */
+body[data-page="hoc-tap"]{--accent:#c2570c}
+body[data-page="icdl"]{--accent:#1565c0}
+body[data-page="lap-trinh"]{--accent:#7b3fc4}
+body[data-page="ai-cong-nghe"]{--accent:#0f766e}
 *{box-sizing:border-box}
-html{background:var(--ink)}
-body{margin:0;background:var(--ink);color:var(--text);font-family:var(--font);line-height:1.55;-webkit-text-size-adjust:100%}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;-webkit-text-size-adjust:100%}
 button{font:inherit;color:inherit;cursor:pointer}
 a{color:inherit}
 img{max-width:100%}
-:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 
 .wrap{width:min(1040px,100% - 32px);margin-inline:auto}
-.site-header{position:sticky;top:0;z-index:20;background:rgba(13,21,55,.96);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.site-header{position:sticky;top:0;z-index:20;background:rgba(255,248,232,.97);border-bottom:3px solid var(--accent);padding-top:env(safe-area-inset-top)}
 .site-header .wrap{display:flex;align-items:center;gap:16px;min-height:60px}
-.site-header .logo{background:#fff;border-radius:10px;padding:3px 10px;display:inline-flex}
+.site-header .logo{display:inline-flex}
 .site-header .logo img{height:38px;width:auto;display:block}
 .site-nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
 .site-nav a{padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
 .site-nav a:hover{background:var(--panel2)}
-.site-nav a[aria-current="page"]{color:var(--amber);box-shadow:inset 0 -3px 0 var(--amber)}
+.site-nav a[aria-current="page"]{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
 .site-footer{margin-top:64px;border-top:1px solid var(--line);padding:24px 0 max(24px,env(safe-area-inset-bottom));color:var(--muted);font-size:14px}
 
 main.page{padding:36px 0 0}
 .page h1{margin:0 0 8px;font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;font-weight:800}
 .lead{margin:0 0 28px;color:var(--muted);font-size:17px;max-width:62ch}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.card{box-shadow:0 1px 0 var(--line);background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
 .card h2{margin:0 0 6px;font-size:22px;font-weight:800}
 .card p{margin:0 0 14px;color:var(--muted);font-size:15px}
 .btns{display:flex;flex-wrap:wrap;gap:8px}
 .btn{display:inline-flex;align-items:center;min-height:46px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;font-size:15px;text-decoration:none}
-a.btn:hover{border-color:var(--amber)}
-.btn.primary{background:var(--amber);border-color:var(--amber);color:#1a1300}
+a.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.off{background:transparent;color:var(--muted);font-weight:400;cursor:default}
-.tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--line);color:#dbe2ff;margin-left:8px;font-weight:600}
-.tag.go{background:#14532d;color:#bbf7d0}
+.tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin-left:8px;font-weight:600}
+.tag.go{background:#dcfce7;border-color:#86efac;color:var(--ok)}
 .crumb{margin:0 0 14px;font-size:14px}.crumb a{color:var(--muted)}
 @media (max-width:640px){
   .site-header .wrap{flex-wrap:wrap;padding-block:8px;gap:4px}

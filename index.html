@@ -15,29 +15,37 @@
 
 <main class="viewport" id="viewport">
   <div class="stage" id="stage">
-    <img src="assets/img/home-world.jpg" alt="Đ-LAB: sân trường công nghệ với ba cổng Học tập, ICDL và Khám phá" width="1671" height="865" fetchpriority="high">
+    <img src="assets/img/home-world.jpg" alt="Sân trường tiểu học Việt Nam với bốn cổng: Học tập, ICDL, Lập trình, AI và Công nghệ" width="1672" height="941" fetchpriority="high">
+    <div class="brand-card">
+      <img src="assets/img/dlab-wordmark.png" alt="Đ-LAB">
+      <h1><span>Cùng học.</span> <span>Cùng khám phá.</span> <span>Cùng sáng tạo.</span></h1>
+      <button class="cta" data-open="hoc">Bắt đầu khám phá</button>
+    </div>
+    <div class="hint" role="note">Em muốn bắt đầu từ đâu?</div>
+    <div class="sign" style="left:12.56%;width:15.37%"><b>Học tập</b><span>Tin học 3 · 4 · 5</span></div>
+    <div class="sign" style="left:32.3%;width:15.43%"><b>ICDL</b><span>Tin học Quốc tế</span></div>
+    <div class="sign" style="left:52.03%;width:15.55%"><b>Lập trình</b><span>Scratch · Python</span></div>
+    <div class="sign" style="left:71.89%;width:15.67%"><b>AI &amp; Công nghệ</b><span>Hiểu và dùng an toàn</span></div>
     <button class="hot" id="h-hoc" data-open="hoc" aria-label="Học tập — Tin học 3, 4, 5"></button>
     <button class="hot" id="h-icdl" data-open="icdl" aria-label="ICDL — Tin học Quốc tế"></button>
-    <button class="hot" id="h-kham" data-open="kham" aria-label="Khám phá — Lập trình và AI"></button>
-    <button class="hot" id="h-cta" data-open="hoc" aria-label="Bắt đầu khám phá — vào khu Học tập"></button>
-    <div class="hint" role="note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="5"/><path d="M12 2.5v6M7 9h10"/></svg>
-      <div><b>Em muốn bắt đầu từ đâu?</b><span>Chọn một khu vực để bắt đầu hành trình cùng Đ-LAB.</span></div>
-    </div>
+    <button class="hot" id="h-lap" data-open="lap" aria-label="Lập trình — Scratch và Python"></button>
+    <button class="hot" id="h-ai" data-open="ai" aria-label="AI và Công nghệ — hiểu và dùng an toàn"></button>
   </div>
 </main>
 
+<a class="brand" href="./" aria-label="Đ-LAB — Trang chủ"><img src="assets/img/dlab-wordmark.png" alt="Đ-LAB"></a>
 <div class="top">
   <button class="chip" data-open="contact" aria-label="Thầy Định — thông tin liên hệ"><img src="assets/img/avatar-thay-dinh.jpg" alt=""><span>Thầy Định</span></button>
   <button class="menu-btn" data-open="menu" aria-label="Menu: Dự án, Thông báo, Liên hệ">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1b2a5c" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </button>
 </div>
 
 <nav class="gates" aria-label="Chọn khu vực">
   <button data-open="hoc">Học tập</button>
   <button data-open="icdl">ICDL</button>
-  <button data-open="kham">Khám phá</button>
+  <button data-open="lap">Lập trình</button>
+  <button data-open="ai">AI</button>
 </nav>
 
 <aside class="panel" id="panel" role="dialog" aria-labelledby="p-title" aria-hidden="true">
